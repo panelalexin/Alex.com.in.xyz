@@ -9,7 +9,7 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;overflow:hidden;}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s;}
-.loginBox{background:#fff;width:90%;max-width:400px;padding:26px;border-radius:24px;text-align:center;animation:slideIn .6s ease;position:relative;box-shadow:0 8px 30px rgba(0,0,0,0.2);}
+.loginBox{background:#fff;width:90%;max-width:400px;padding:26px;border-radius:24px;text-align:center;animation:slideIn .5s ease;position:relative;box-shadow:0 8px 30px rgba(0,0,0,0.2);}
 @keyframes slideIn{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
 .backBtn{position:absolute;left:18px;top:18px;font-size:20px;cursor:pointer;display:none;}
 .loginBox h2{color:#ff6b6b;margin-bottom:10px;}
@@ -43,7 +43,7 @@ small{font-size:12px;color:#666;margin-top:5px;display:block;}
   </div>
 </div>
 
-<!-- ===== MAIN SITE ===== -->
+<!-- ===== MAIN PANEL ===== -->
 <div id="site">
   <div class="card">
     <h2>✅ Access Granted</h2>
@@ -52,10 +52,10 @@ small{font-size:12px;color:#666;margin-top:5px;display:block;}
   </div>
 </div>
 
-<!-- ===== SERVICES SELECTION ===== -->
+<!-- ===== SERVICE SELECTION ===== -->
 <div id="serviceOverlay" class="overlay hidden">
   <div class="loginBox">
-    <div class="backBtn" id="backServiceBtn">⬅</div>
+    <div class="backBtn" id="serviceBackBtn">⬅</div>
     <h2>Select Service</h2>
     <button class="btn more" data-service="Instagram Boost">Instagram Boost</button>
     <button class="btn more" data-service="Instagram Recovery">Instagram Recovery</button>
@@ -67,7 +67,7 @@ small{font-size:12px;color:#666;margin-top:5px;display:block;}
 <!-- ===== ORDER DETAILS ===== -->
 <div id="orderOverlay" class="overlay hidden">
   <div class="loginBox">
-    <div class="backBtn" id="backOrderBtn">⬅</div>
+    <div class="backBtn" id="orderBackBtn">⬅</div>
     <h2 id="serviceTitle"></h2>
     <input id="userInfo" placeholder="">
     <select id="servicePrice"></select>
@@ -100,8 +100,8 @@ const popupEmail = document.getElementById("popupEmail");
 const serviceOverlay = document.getElementById("serviceOverlay");
 const orderOverlay = document.getElementById("orderOverlay");
 const serviceButtons = serviceOverlay.querySelectorAll(".btn.more");
-const backServiceBtn = document.getElementById("backServiceBtn");
-const backOrderBtn = document.getElementById("backOrderBtn");
+const serviceBackBtn = document.getElementById("serviceBackBtn");
+const orderBackBtn = document.getElementById("orderBackBtn");
 const orderBtn = document.getElementById("orderBtn");
 const startService = document.getElementById("startService");
 const userInfo = document.getElementById("userInfo");
@@ -127,10 +127,11 @@ onAuthStateChanged(auth,user=>{
   }
 });
 
-// Start service button
+// Start service
 startService.addEventListener("click",()=>{
   site.style.display="none";
   serviceOverlay.classList.remove("hidden");
+  serviceBackBtn.style.display="block";
 });
 
 // Service selection
@@ -141,26 +142,24 @@ serviceButtons.forEach(btn=>{
 
     servicePrice.innerHTML = "";
     userInfo.value = "";
-    if(currentService.includes("Instagram")){
+
+    if(currentService==="Instagram Boost"){
       userInfo.placeholder = "Enter username with @";
-      if(currentService==="Instagram Boost"){
-        [[100,20],[200,30],[300,45],[400,55],[1000,100],[2000,200],[5000,500],[9000,1000],[10000,1100]]
-        .forEach(p=>{
-          let o = document.createElement("option");
-          o.value = p[0]+"|"+p[1];
-          o.textContent = p[0]+" - ₹"+p[1];
-          servicePrice.appendChild(o);
-        });
-      }
-      if(currentService==="Instagram Recovery"){ addOption("Recovery",300); }
-      if(currentService==="Instagram Disable"){ addOption("Disable",700); }
-    } else { // YouTube
-      userInfo.placeholder = "Enter YouTube channel link";
-      addOption("1000 Subscribers",50);
+      [[100,20],[200,30],[300,45],[400,55],[1000,100],[2000,200],[5000,500],[9000,1000],[10000,1100]]
+      .forEach(p=>{
+        let o = document.createElement("option");
+        o.value = p[0]+"|"+p[1];
+        o.textContent = p[0]+" - ₹"+p[1];
+        servicePrice.appendChild(o);
+      });
     }
+    if(currentService==="Instagram Recovery"){ userInfo.placeholder="@username"; addOption("Recovery",300); }
+    if(currentService==="Instagram Disable"){ userInfo.placeholder="@username"; addOption("Disable",700); }
+    if(currentService==="YouTube Subscribers"){ userInfo.placeholder="Enter YouTube channel link"; addOption("1000 Subscribers",50); }
 
     serviceOverlay.classList.add("hidden");
     orderOverlay.classList.remove("hidden");
+    orderBackBtn.style.display="block";
   });
 });
 
@@ -172,11 +171,11 @@ function addOption(q,a){
 }
 
 // Back buttons
-backServiceBtn.addEventListener("click",()=>{
-  orderOverlay.classList.add("hidden");
-  serviceOverlay.classList.remove("hidden");
+serviceBackBtn.addEventListener("click",()=>{
+  serviceOverlay.classList.add("hidden");
+  site.style.display="flex";
 });
-backOrderBtn.addEventListener("click",()=>{
+orderBackBtn.addEventListener("click",()=>{
   orderOverlay.classList.add("hidden");
   serviceOverlay.classList.remove("hidden");
 });
@@ -186,7 +185,7 @@ orderBtn.addEventListener("click",()=>{
   const [qty,amt] = servicePrice.value.split("|");
   const infoVal = userInfo.value.trim();
   const userEmail = auth.currentUser.email;
-  
+
   if(currentService==="YouTube Subscribers"){
     const ytRegex = /^(https:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
     if(!ytRegex.test(infoVal)){
@@ -207,10 +206,10 @@ Username/Channel: ${infoVal}
 Email: ${userEmail}
 Date: ${new Date().toLocaleString()}
 Order ID: #${orderId}`;
-  
+
   window.open("https://wa.me/19027088772?text="+encodeURIComponent(msg));
 });
 </script>
 
 </body>
-</html>
+  </html>
