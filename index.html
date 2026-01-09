@@ -8,7 +8,6 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;}
-/* LOGIN OVERLAY */
 #loginOverlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:9999;}
 .loginBox{background:#fff;width:90%;max-width:360px;padding:28px;border-radius:26px;text-align:center;animation:slideIn .6s ease;position:relative;}
 @keyframes slideIn{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
@@ -21,7 +20,6 @@ body{background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;color:#
 .inputField{width:100%;padding:12px;margin-top:10px;border-radius:14px;border:1px solid #ddd;}
 .small{font-size:12px;margin-top:10px;color:#666;cursor:pointer;}
 .hidden{display:none;}
-/* MAIN PANEL */
 #site{display:none;width:100%;flex-direction:column;align-items:center;flex:1;}
 header{width:100%;padding:14px;background:linear-gradient(90deg,#ff512f,#f09819);display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 15px rgba(0,0,0,.3);}
 header div{font-weight:600;font-size:14px;}
@@ -31,12 +29,9 @@ header button{padding:6px 12px;border:none;border-radius:14px;background:#fff;co
 button,select,input{width:100%;padding:14px;margin-top:12px;border:none;border-radius:14px;font-size:16px;}
 .main{background:linear-gradient(90deg,#ff512f,#f09819);color:#fff;font-weight:600;}
 .service{background:linear-gradient(90deg,#36d1dc,#5b86e5);color:#fff;font-weight:600;}
-.whatsapp{background:linear-gradient(90deg,#25d366,#128c7e);color:#fff;font-weight:700;}
 .reset{background:linear-gradient(90deg,#636e72,#2d3436);color:#fff;}
-/* FLOATING WA */
 .wa{position:fixed;right:20px;bottom:80px;width:60px;height:60px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 25px rgba(0,0,0,.4);z-index:999;}
 .wa img{width:34px;}
-/* FOOTER */
 footer{width:100%;background:linear-gradient(90deg,#141e30,#243b55);padding:14px;text-align:center;font-size:14px;}
 </style>
 </head>
@@ -47,7 +42,6 @@ footer{width:100%;background:linear-gradient(90deg,#141e30,#243b55);padding:14px
   <div class="loginBox">
     <div class="backBtn" id="backBtn" onclick="goBack()">⬅</div>
 
-    <!-- STEP 1 -->
     <div id="stepMain">
       <h2>👋 Welcome</h2>
       <p>Login to access panel</p>
@@ -55,14 +49,12 @@ footer{width:100%;background:linear-gradient(90deg,#141e30,#243b55);padding:14px
       <button class="btn more" onclick="showMore()">More options</button>
     </div>
 
-    <!-- STEP 2 -->
     <div id="stepMore" class="hidden">
       <h2>Select Login</h2>
       <button class="btn more" onclick="showEmail()">Email</button>
       <button class="btn more" onclick="showPhone()">Mobile OTP</button>
     </div>
 
-    <!-- STEP 3 EMAIL -->
     <div id="stepEmail" class="hidden">
       <h2>Email Login</h2>
       <input id="email" class="inputField" placeholder="Email">
@@ -71,7 +63,6 @@ footer{width:100%;background:linear-gradient(90deg,#141e30,#243b55);padding:14px
       <div class="small" onclick="showSignup()">Don’t have account? Create Account</div>
     </div>
 
-    <!-- STEP 4 EMAIL SIGNUP -->
     <div id="stepSignup" class="hidden">
       <h2>Create Account</h2>
       <input id="sEmail" class="inputField" placeholder="Email">
@@ -79,13 +70,15 @@ footer{width:100%;background:linear-gradient(90deg,#141e30,#243b55);padding:14px
       <button class="btn more" onclick="emailSignup()">Sign Up</button>
     </div>
 
-    <!-- STEP 3 PHONE -->
     <div id="stepPhone" class="hidden">
       <h2>Mobile OTP</h2>
       <input value="+91" readonly class="inputField">
       <input id="phoneNum" class="inputField" placeholder="Enter mobile number">
       <button class="btn more" onclick="phoneLogin()">Send OTP</button>
+      <input id="otp" class="inputField hidden" placeholder="Enter OTP">
+      <button class="btn more hidden" id="verifyOtpBtn" onclick="confirmOtp()">Verify OTP</button>
     </div>
+    <div id="recaptcha-container"></div>
   </div>
 </div>
 
@@ -96,7 +89,6 @@ footer{width:100%;background:linear-gradient(90deg,#141e30,#243b55);padding:14px
     <button onclick="logout()">Logout</button>
   </header>
 
-  <!-- STEP 1: SERVICE SELECTION -->
   <div id="step1" class="card">
     <h3>Select Service</h3>
     <button class="service" onclick="selectService('Instagram Boost')">Instagram Boost</button>
@@ -105,7 +97,6 @@ footer{width:100%;background:linear-gradient(90deg,#141e30,#243b55);padding:14px
     <button class="service" onclick="selectService('YouTube Subscriber')">YouTube Subscriber – ₹50</button>
   </div>
 
-  <!-- STEP 2: DETAILS -->
   <div id="step2" class="card hidden">
     <div class="back" onclick="backStep()">⬅</div>
     <h3 id="title"></h3>
@@ -117,7 +108,6 @@ footer{width:100%;background:linear-gradient(90deg,#141e30,#243b55);padding:14px
   </div>
 </div>
 
-<!-- FLOATING WA -->
 <div class="wa" onclick="goWhatsApp()">
   <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
 </div>
@@ -128,11 +118,7 @@ Alex estd 2024 | 100% trusted by 10,000+ people
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword,
-  createUserWithEmailAndPassword, signInWithPhoneNumber, RecaptchaVerifier,
-  onAuthStateChanged, signOut
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, RecaptchaVerifier, signInWithPhoneNumber, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC1DpETrRhKtC48xhh6_GTRot7i8ZFzHAY",
@@ -143,7 +129,6 @@ const firebaseConfig = {
   appId: "1:570214145150:web:cb7b545ee3de305d5e4c2f",
   measurementId: "G-9LD6JPLFML"
 };
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
@@ -158,15 +143,29 @@ window.goBack=()=>{const prev=history.pop();show(prev)}
 window.googleLogin=()=>signInWithPopup(auth,new GoogleAuthProvider())
 window.emailLogin=()=>signInWithEmailAndPassword(auth,email.value,password.value)
 window.emailSignup=()=>createUserWithEmailAndPassword(auth,sEmail.value,sPassword.value)
-window.phoneLogin=()=>{window.recaptchaVerifier=new RecaptchaVerifier(auth,"loginOverlay",{size:"invisible"});signInWithPhoneNumber(auth,"+91"+phoneNum.value,recaptchaVerifier).then(r=>{const code=prompt("Enter OTP");r.confirm(code});}
 window.logout=()=>signOut(auth);
+
+/* PHONE OTP */
+let confirmationResult;
+window.phoneLogin=()=>{
+  window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container',{size:'invisible'},auth);
+  signInWithPhoneNumber(auth,'+91'+phoneNum.value,window.recaptchaVerifier)
+  .then((res)=>{
+    confirmationResult=res;
+    otp.classList.remove('hidden');
+    verifyOtpBtn.classList.remove('hidden');
+  }).catch(console.error);
+}
+window.confirmOtp=()=>{
+  confirmationResult.confirm(otp.value).then(res=>{}).catch(e=>alert('Invalid OTP'));
+}
 
 /* AUTH STATE */
 onAuthStateChanged(auth,user=>{
   if(user){
     loginOverlay.style.display="none";
     site.style.display="flex";
-    document.getElementById("userEmail").innerText=user.email || "Google User";
+    document.getElementById("userEmail").innerText=user.email||"Google User";
   } else {
     loginOverlay.style.display="flex";
     site.style.display="none";
@@ -176,24 +175,20 @@ onAuthStateChanged(auth,user=>{
 /* ORDER SYSTEM */
 let service='',price='',quantity='';
 let baseOrderId=23992;
-
 function selectService(s){
-  service=s;qty.innerHTML='';instaUser.classList.add('hidden');ytLink.classList.add('hidden');
-  if(s==='Instagram Boost'){
-    title.innerText='Instagram Boost';instaUser.classList.remove('hidden');
+  service=s; qty.innerHTML=''; instaUser.classList.add('hidden'); ytLink.classList.add('hidden');
+  if(s==='Instagram Boost'){title.innerText='Instagram Boost'; instaUser.classList.remove('hidden');
     let opts=[['100','₹20'],['200','₹30'],['300','₹45'],['400','₹55'],['1000','₹100'],['2000','₹200'],['5000','₹500'],['9000','₹1000'],['10000','₹1100']];
     opts.forEach(v=>{let o=document.createElement('option');o.value=v[0]+'|'+v[1];o.text=v[0]+' - '+v[1];qty.add(o);});
-  } else if(s==='YouTube Subscriber'){title.innerText='YouTube Subscriber';ytLink.classList.remove('hidden');qty.style.display='block';let o=document.createElement('option');o.value='1000|₹50';o.text='1000 - ₹50';qty.add(o);}
-  else{title.innerText=s;price=s==='Instagram Recovery'?'₹300':'₹700';instaUser.classList.remove('hidden');qty.style.display='none';}
-  document.getElementById("step1").classList.add("hidden");document.getElementById("step2").classList.remove("hidden");
+  } else if(s==='YouTube Subscriber'){title.innerText='YouTube Subscriber'; ytLink.classList.remove('hidden'); let o=document.createElement('option');o.value='1000|₹50'; o.text='1000 - ₹50'; qty.add(o);}
+  else{title.innerText=s; instaUser.classList.remove('hidden'); qty.style.display='none'; price=s==='Instagram Recovery'?'₹300':'₹700';}
+  step1.classList.add('hidden'); step2.classList.remove('hidden');
 }
-
-function backStep(){document.getElementById("step2").classList.add("hidden");document.getElementById("step1").classList.remove("hidden");}
+function backStep(){step2.classList.add('hidden'); step1.classList.remove('hidden');}
 function resetOrder(){location.reload();}
-
 function goWhatsApp(){
   const now=new Date();
-  if(qty.style.display!=='none'){let v=qty.value.split('|');quantity=v[0];price=v[1];}else quantity='N/A';
+  if(qty.style.display!=='none'){let v=qty.value.split('|'); quantity=v[0]; price=v[1];}else quantity='N/A';
   const extra=instaUser.style.display!=='none'?`Instagram Username: ${instaUser.value}`:ytLink.style.display!=='none'?`YouTube Link: ${ytLink.value}`:'';
   const msg=`Order ID: #${baseOrderId+Math.floor(Math.random()*900)}
 Service: ${service}
@@ -206,6 +201,5 @@ Time: ${now.toLocaleTimeString()}`;
   window.open('https://wa.me/1902708772?text='+encodeURIComponent(msg),'_blank');
 }
 </script>
-
 </body>
 </html>
