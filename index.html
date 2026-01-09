@@ -2,25 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Alex Services | Login</title>
+<title>Alex Services Panel</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:linear-gradient(135deg,#ff9a9e,#fad0c4);min-height:100vh;overflow:hidden;}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:9999;}
-.loginBox{background:#fff;width:90%;max-width:360px;padding:26px;border-radius:26px;text-align:center;animation:slideIn .6s ease;position:relative;}
+body{background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;overflow:hidden;}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s;}
+.loginBox{background:#fff;width:90%;max-width:400px;padding:26px;border-radius:24px;text-align:center;animation:slideIn .6s ease;position:relative;box-shadow:0 8px 30px rgba(0,0,0,0.2);}
 @keyframes slideIn{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
 .backBtn{position:absolute;left:18px;top:18px;font-size:20px;cursor:pointer;display:none;}
-.loginBox h2{color:#ff6b6b;margin-bottom:6px;}
+.loginBox h2{color:#ff6b6b;margin-bottom:10px;}
 .loginBox p{font-size:14px;color:#666;}
-.btn{width:100%;padding:14px;border:none;border-radius:16px;margin-top:14px;font-size:16px;cursor:pointer;font-weight:600;}
+.btn{width:100%;padding:14px;border:none;border-radius:16px;margin-top:14px;font-size:16px;cursor:pointer;font-weight:600;transition:0.3s;}
 .google{background:linear-gradient(90deg,#4285F4,#34A853);color:#fff;}
 .more{background:linear-gradient(90deg,#667eea,#764ba2);color:#fff;}
 input,select{width:100%;padding:12px;margin-top:10px;border-radius:14px;border:1px solid #ddd;}
+small{font-size:12px;color:#666;margin-top:5px;display:block;}
 .hidden{display:none;}
-#site{display:none;min-height:100vh;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;display:flex;align-items:center;justify-content:center;}
-.card{background:#fff;color:#333;padding:30px;border-radius:24px;text-align:center;width:90%;max-width:400px;}
+#site{display:none;min-height:100vh;color:#fff;display:flex;align-items:center;justify-content:center;position:relative;}
+.card{background:#fff;color:#333;padding:30px;border-radius:24px;text-align:center;width:90%;max-width:450px;box-shadow:0 8px 30px rgba(0,0,0,0.2);}
 </style>
 </head>
 <body>
@@ -34,11 +35,20 @@ input,select{width:100%;padding:12px;margin-top:10px;border-radius:14px;border:1
   </div>
 </div>
 
+<!-- ===== EMAIL BOT POPUP ===== -->
+<div id="emailPopup" class="overlay hidden">
+  <div class="loginBox">
+    <h2>🛡 Verifying Email</h2>
+    <p id="popupEmail"></p>
+  </div>
+</div>
+
 <!-- ===== MAIN SITE ===== -->
 <div id="site">
   <div class="card">
     <h2>✅ Access Granted</h2>
     <p>Welcome to Alex Services</p>
+    <button class="btn more" id="startService">Start Order</button>
   </div>
 </div>
 
@@ -59,7 +69,7 @@ input,select{width:100%;padding:12px;margin-top:10px;border-radius:14px;border:1
   <div class="loginBox">
     <div class="backBtn" id="backOrderBtn">⬅</div>
     <h2 id="serviceTitle"></h2>
-    <input id="userInfo" placeholder="Instagram Username / YouTube Channel Link">
+    <input id="userInfo" placeholder="">
     <select id="servicePrice"></select>
     <button class="btn google" id="orderBtn">Order on WhatsApp</button>
   </div>
@@ -69,7 +79,6 @@ input,select{width:100%;padding:12px;margin-top:10px;border-radius:14px;border:1
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyC1DpETrRhKtC48xhh6_GTRot7i8ZFzHAY",
   authDomain: "my-web-de42e.firebaseapp.com",
@@ -86,12 +95,21 @@ const auth = getAuth(app);
 // Elements
 const loginOverlay = document.getElementById("loginOverlay");
 const site = document.getElementById("site");
+const emailPopup = document.getElementById("emailPopup");
+const popupEmail = document.getElementById("popupEmail");
 const serviceOverlay = document.getElementById("serviceOverlay");
 const orderOverlay = document.getElementById("orderOverlay");
 const serviceButtons = serviceOverlay.querySelectorAll(".btn.more");
 const backServiceBtn = document.getElementById("backServiceBtn");
 const backOrderBtn = document.getElementById("backOrderBtn");
 const orderBtn = document.getElementById("orderBtn");
+const startService = document.getElementById("startService");
+const userInfo = document.getElementById("userInfo");
+const servicePrice = document.getElementById("servicePrice");
+const serviceTitle = document.getElementById("serviceTitle");
+
+let orderId = 23992;
+let currentService = "";
 
 // Google login
 document.getElementById("googleLoginBtn").addEventListener("click",()=>{
@@ -103,33 +121,43 @@ onAuthStateChanged(auth,user=>{
   if(user){
     loginOverlay.style.display="none";
     site.style.display="flex";
-    serviceOverlay.classList.remove("hidden");
+    popupEmail.textContent = `Logged in as: ${user.email}`;
+    emailPopup.classList.remove("hidden");
+    setTimeout(()=>{emailPopup.classList.add("hidden")},4000);
   }
 });
 
-let currentService = "";
+// Start service button
+startService.addEventListener("click",()=>{
+  site.style.display="none";
+  serviceOverlay.classList.remove("hidden");
+});
 
 // Service selection
 serviceButtons.forEach(btn=>{
   btn.addEventListener("click",()=>{
     currentService = btn.dataset.service;
-    document.getElementById("serviceTitle").innerText = currentService;
+    serviceTitle.innerText = currentService;
 
-    const priceSelect = document.getElementById("servicePrice");
-    priceSelect.innerHTML = "";
-
-    if(currentService==="Instagram Boost"){
-      [[100,20],[200,30],[300,45],[400,55],[1000,100],[2000,200],[5000,500],[9000,1000],[10000,1100]]
-      .forEach(p=>{
-        let o = document.createElement("option");
-        o.value = p[0]+"|"+p[1];
-        o.textContent = p[0]+" - ₹"+p[1];
-        priceSelect.appendChild(o);
-      });
+    servicePrice.innerHTML = "";
+    userInfo.value = "";
+    if(currentService.includes("Instagram")){
+      userInfo.placeholder = "Enter username with @";
+      if(currentService==="Instagram Boost"){
+        [[100,20],[200,30],[300,45],[400,55],[1000,100],[2000,200],[5000,500],[9000,1000],[10000,1100]]
+        .forEach(p=>{
+          let o = document.createElement("option");
+          o.value = p[0]+"|"+p[1];
+          o.textContent = p[0]+" - ₹"+p[1];
+          servicePrice.appendChild(o);
+        });
+      }
+      if(currentService==="Instagram Recovery"){ addOption("Recovery",300); }
+      if(currentService==="Instagram Disable"){ addOption("Disable",700); }
+    } else { // YouTube
+      userInfo.placeholder = "Enter YouTube channel link";
+      addOption("1000 Subscribers",50);
     }
-    if(currentService==="Instagram Recovery"){ addOption("Recovery",300); }
-    if(currentService==="Instagram Disable"){ addOption("Disable",700); }
-    if(currentService==="YouTube Subscribers"){ addOption("1000 Subs",50); }
 
     serviceOverlay.classList.add("hidden");
     orderOverlay.classList.remove("hidden");
@@ -140,7 +168,7 @@ function addOption(q,a){
   let o = document.createElement("option");
   o.value = q+"|"+a;
   o.textContent = q+" - ₹"+a;
-  document.getElementById("servicePrice").appendChild(o);
+  servicePrice.appendChild(o);
 }
 
 // Back buttons
@@ -148,7 +176,6 @@ backServiceBtn.addEventListener("click",()=>{
   orderOverlay.classList.add("hidden");
   serviceOverlay.classList.remove("hidden");
 });
-
 backOrderBtn.addEventListener("click",()=>{
   orderOverlay.classList.add("hidden");
   serviceOverlay.classList.remove("hidden");
@@ -156,18 +183,34 @@ backOrderBtn.addEventListener("click",()=>{
 
 // WhatsApp order
 orderBtn.addEventListener("click",()=>{
-  const [qty,amt] = document.getElementById("servicePrice").value.split("|");
-  const info = document.getElementById("userInfo").value;
+  const [qty,amt] = servicePrice.value.split("|");
+  const infoVal = userInfo.value.trim();
   const userEmail = auth.currentUser.email;
+  
+  if(currentService==="YouTube Subscribers"){
+    const ytRegex = /^(https:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
+    if(!ytRegex.test(infoVal)){
+      alert("Invalid YouTube link!");
+      return;
+    }
+  }
+  if(currentService.includes("Instagram") && !infoVal.startsWith("@")){
+    alert("Instagram username must start with @");
+    return;
+  }
+
+  orderId++;
   const msg = `Service: ${currentService}
 Quantity: ${qty}
 Amount: ₹${amt}
-Username/Channel: ${info}
+Username/Channel: ${infoVal}
 Email: ${userEmail}
 Date: ${new Date().toLocaleString()}
-Order ID: #23992`;
+Order ID: #${orderId}`;
+  
   window.open("https://wa.me/19027088772?text="+encodeURIComponent(msg));
 });
 </script>
+
 </body>
 </html>
