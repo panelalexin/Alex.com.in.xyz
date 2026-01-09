@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;}
+body{background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;overflow-x:hidden;}
 #loginOverlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:9999;}
 .loginBox{background:#fff;width:90%;max-width:360px;padding:28px;border-radius:26px;text-align:center;animation:slideIn .6s ease;position:relative;}
 @keyframes slideIn{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
@@ -117,12 +117,6 @@ Alex estd 2024 | 100% trusted by 10,000+ people
 </footer>
 
 <script type="module">
-  const step1 = document.getElementById("step1");
-const step2 = document.getElementById("step2");
-const title = document.getElementById("title");
-const qty = document.getElementById("qty");
-const instaUser = document.getElementById("instaUser");
-const ytLink = document.getElementById("ytLink");
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, RecaptchaVerifier, signInWithPhoneNumber, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
@@ -138,8 +132,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-/* LOGIN FLOW */
+/* ELEMENTS */
+const step1 = document.getElementById("step1");
+const step2 = document.getElementById("step2");
+const title = document.getElementById("title");
+const qty = document.getElementById("qty");
+const instaUser = document.getElementById("instaUser");
+const ytLink = document.getElementById("ytLink");
+const otp = document.getElementById("otp");
+const verifyOtpBtn = document.getElementById("verifyOtpBtn");
 let history=[];
+
+/* LOGIN FLOW */
 function show(id){document.querySelectorAll(".loginBox > div").forEach(d=>d.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");backBtn.style.display = history.length ? "block":"none"}
 window.showMore=()=>{history.push("stepMain");show("stepMore")}
 window.showEmail=()=>{history.push("stepMore");show("stepEmail")}
@@ -182,14 +186,41 @@ onAuthStateChanged(auth,user=>{
 let service='',price='',quantity='';
 let baseOrderId=23992;
 function selectService(s){
-  service=s; qty.innerHTML=''; instaUser.classList.add('hidden'); ytLink.classList.add('hidden');
-  if(s==='Instagram Boost'){title.innerText='Instagram Boost'; instaUser.classList.remove('hidden');
+  service = s;
+  qty.innerHTML = '';
+  instaUser.classList.add('hidden');
+  ytLink.classList.add('hidden');
+
+  if(s==='Instagram Boost'){
+    title.innerText='Instagram Boost';
+    instaUser.classList.remove('hidden');
     let opts=[['100','₹20'],['200','₹30'],['300','₹45'],['400','₹55'],['1000','₹100'],['2000','₹200'],['5000','₹500'],['9000','₹1000'],['10000','₹1100']];
-    opts.forEach(v=>{let o=document.createElement('option');o.value=v[0]+'|'+v[1];o.text=v[0]+' - '+v[1];qty.add(o);});
-  } else if(s==='YouTube Subscriber'){title.innerText='YouTube Subscriber'; ytLink.classList.remove('hidden'); let o=document.createElement('option');o.value='1000|₹50'; o.text='1000 - ₹50'; qty.add(o);}
-  else{title.innerText=s; instaUser.classList.remove('hidden'); qty.style.display='none'; price=s==='Instagram Recovery'?'₹300':'₹700';}
-  step1.classList.add('hidden'); step2.classList.remove('hidden');
+    opts.forEach(v=>{
+      let o=document.createElement('option');
+      o.value=v[0]+'|'+v[1];
+      o.text=v[0]+' - '+v[1];
+      qty.add(o);
+    });
+    qty.style.display = 'block';
+  } else if(s==='YouTube Subscriber'){
+    title.innerText='YouTube Subscriber';
+    ytLink.classList.remove('hidden');
+    let o=document.createElement('option');
+    o.value='1000|₹50';
+    o.text='1000 - ₹50';
+    qty.add(o);
+    qty.style.display = 'block';
+  } else {
+    title.innerText = s;
+    instaUser.classList.remove('hidden');
+    qty.style.display = 'none';
+    price = s==='Instagram Recovery'?'₹300':'₹700';
+  }
+
+  step1.classList.add('hidden');
+  step2.classList.remove('hidden');
 }
+
 function backStep(){step2.classList.add('hidden'); step1.classList.remove('hidden');}
 function resetOrder(){location.reload();}
 function goWhatsApp(){
