@@ -2,290 +2,172 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Premium Panel</title>
+<title>Alex Services | Login</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Poppins,system-ui;
-  background:linear-gradient(135deg,#667eea,#764ba2);
-  color:#fff;
-  overflow:hidden;
-}
-.hidden{display:none}
-.screen{
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-.card{
-  width:90%;
-  max-width:420px;
-  background:rgba(255,255,255,.15);
-  backdrop-filter:blur(18px);
-  border-radius:22px;
-  padding:26px;
-  text-align:center;
-  box-shadow:0 25px 50px rgba(0,0,0,.35);
-  animation:pop .4s ease;
-}
-@keyframes pop{
-  from{transform:scale(.9);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-h2{margin-top:0}
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:16px;
-  font-size:15px;
-  margin-top:12px;
-  cursor:pointer;
-  color:#fff;
-}
-.google{background:linear-gradient(90deg,#ff6ec4,#7873f5)}
-.primary{background:linear-gradient(90deg,#00c6ff,#0072ff)}
-.alt{background:linear-gradient(90deg,#f7971e,#ffd200);color:#000}
-.logout{background:#ff4d4d}
-input,select{
-  width:100%;
-  padding:12px;
-  border-radius:14px;
-  border:none;
-  margin-top:10px;
-  outline:none;
-}
-.small{
-  font-size:13px;
-  opacity:.9;
-  cursor:pointer;
-}
-.topbar{
-  position:fixed;
-  top:12px;
-  left:14px;
-  font-size:13px;
-}
-.logoutBtn{
-  position:fixed;
-  top:10px;
-  right:10px;
-}
-.footer{
-  position:fixed;
-  bottom:10px;
-  width:100%;
-  text-align:center;
-  font-size:12px;
-  opacity:.85;
-}
-.wa{
-  position:fixed;
-  right:18px;
-  bottom:70px;
-  width:56px;
-  height:56px;
-  border-radius:50%;
-  background:#25D366;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:26px;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:linear-gradient(135deg,#ff9a9e,#fad0c4);min-height:100vh;overflow:hidden;}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:9999;}
+.loginBox{background:#fff;width:90%;max-width:360px;padding:26px;border-radius:26px;text-align:center;animation:slideIn .6s ease;position:relative;}
+@keyframes slideIn{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
+.backBtn{position:absolute;left:18px;top:18px;font-size:20px;cursor:pointer;display:none;}
+.loginBox h2{color:#ff6b6b;margin-bottom:6px;}
+.loginBox p{font-size:14px;color:#666;}
+.btn{width:100%;padding:14px;border:none;border-radius:16px;margin-top:14px;font-size:16px;cursor:pointer;font-weight:600;}
+.google{background:linear-gradient(90deg,#4285F4,#34A853);color:#fff;}
+.more{background:linear-gradient(90deg,#667eea,#764ba2);color:#fff;}
+input,select{width:100%;padding:12px;margin-top:10px;border-radius:14px;border:1px solid #ddd;}
+.hidden{display:none;}
+#site{display:none;min-height:100vh;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;display:flex;align-items:center;justify-content:center;}
+.card{background:#fff;color:#333;padding:30px;border-radius:24px;text-align:center;width:90%;max-width:400px;}
 </style>
 </head>
-
 <body>
 
-<div class="topbar" id="emailView"></div>
-<button class="btn logout logoutBtn hidden" id="logoutBtn">Logout</button>
-
-<!-- LOGIN -->
-<div class="screen" id="loginScreen">
-  <div class="card">
-    <h2>Welcome 🎉</h2>
+<!-- ===== LOGIN OVERLAY ===== -->
+<div id="loginOverlay" class="overlay">
+  <div class="loginBox">
+    <h2>👋 Welcome</h2>
     <p>Login to continue</p>
-
-    <button class="btn google" id="googleBtn">Continue with Google</button>
-
-    <hr style="opacity:.3;margin:15px 0">
-
-    <!-- EMAIL LOGIN -->
-    <div id="emailLoginBox">
-      <input id="loginEmail" placeholder="Email">
-      <input id="loginPass" type="password" placeholder="Password">
-      <button class="btn primary" id="emailLoginBtn">Login</button>
-
-      <p class="small" id="showSignup">No account? Create account</p>
-    </div>
-
-    <!-- SIGNUP -->
-    <div id="signupBox" class="hidden">
-      <input id="signupEmail" placeholder="Email">
-      <input id="signupPass" type="password" placeholder="Password">
-      <input id="signupConfirm" type="password" placeholder="Confirm Password">
-      <button class="btn alt" id="signupBtn">Create Account</button>
-
-      <p class="small" id="backToLogin">← Back to login</p>
-    </div>
+    <button class="btn google" id="googleLoginBtn">Continue with Google</button>
   </div>
 </div>
 
-<!-- STEP 1 -->
-<div class="screen hidden" id="step1">
+<!-- ===== MAIN SITE ===== -->
+<div id="site">
   <div class="card">
+    <h2>✅ Access Granted</h2>
+    <p>Welcome to Alex Services</p>
+  </div>
+</div>
+
+<!-- ===== SERVICES SELECTION ===== -->
+<div id="serviceOverlay" class="overlay hidden">
+  <div class="loginBox">
+    <div class="backBtn" id="backServiceBtn">⬅</div>
     <h2>Select Service</h2>
-    <button class="btn primary" data-service="Instagram Boost">Instagram Boost</button>
-    <button class="btn primary" data-service="Instagram Recovery">Instagram Recovery</button>
-    <button class="btn primary" data-service="Instagram Disable">Instagram Disable</button>
-    <button class="btn primary" data-service="YouTube Subscribers">YouTube Subscribers</button>
+    <button class="btn more" data-service="Instagram Boost">Instagram Boost</button>
+    <button class="btn more" data-service="Instagram Recovery">Instagram Recovery</button>
+    <button class="btn more" data-service="Instagram Disable">Instagram Disable</button>
+    <button class="btn more" data-service="YouTube Subscribers">YouTube Subscribers</button>
   </div>
 </div>
 
-<!-- STEP 2 -->
-<div class="screen hidden" id="step2">
-  <div class="card">
+<!-- ===== ORDER DETAILS ===== -->
+<div id="orderOverlay" class="overlay hidden">
+  <div class="loginBox">
+    <div class="backBtn" id="backOrderBtn">⬅</div>
     <h2 id="serviceTitle"></h2>
-
-    <input id="instaUser" class="hidden" placeholder="Instagram Username">
-    <input id="ytLink" class="hidden" placeholder="YouTube Channel Link">
-    <select id="qty" class="hidden"></select>
-
-    <button class="btn primary" id="continueBtn">Continue</button>
-    <button class="btn alt" id="backBtn">← Back</button>
+    <input id="userInfo" placeholder="Instagram Username / YouTube Channel Link">
+    <select id="servicePrice"></select>
+    <button class="btn google" id="orderBtn">Order on WhatsApp</button>
   </div>
-</div>
-
-<!-- STEP 3 -->
-<div class="screen hidden" id="step3">
-  <div class="card">
-    <h2>Confirm Order</h2>
-    <p id="summary"></p>
-    <button class="btn primary" id="waBtn">Purchase on WhatsApp</button>
-    <button class="btn alt" id="resetBtn">Reset</button>
-  </div>
-</div>
-
-<a class="wa" href="https://wa.me/19027088772" target="_blank">💬</a>
-
-<div class="footer">
-Alex • Estd 2024<br>
-100% trusted by 10000+ people
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
- getAuth, GoogleAuthProvider, signInWithPopup,
- signInWithEmailAndPassword, createUserWithEmailAndPassword,
- onAuthStateChanged, signOut
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+// Firebase config
 const firebaseConfig = {
- apiKey: "AIzaSyC1DpETrRhKtC48xhh6_GTRot7i8ZFzHAY",
- authDomain: "my-web-de42e.firebaseapp.com",
- projectId: "my-web-de42e",
- appId: "1:570214145150:web:cb7b545ee3de305d5e4c2f"
+  apiKey: "AIzaSyC1DpETrRhKtC48xhh6_GTRot7i8ZFzHAY",
+  authDomain: "my-web-de42e.firebaseapp.com",
+  projectId: "my-web-de42e",
+  storageBucket: "my-web-de42e.firebasestorage.app",
+  messagingSenderId: "570214145150",
+  appId: "1:570214145150:web:cb7b545ee3de305d5e4c2f",
+  measurementId: "G-9LD6JPLFML"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
 
-let service="", quantity="", amount="", extra="";
+// Elements
+const loginOverlay = document.getElementById("loginOverlay");
+const site = document.getElementById("site");
+const serviceOverlay = document.getElementById("serviceOverlay");
+const orderOverlay = document.getElementById("orderOverlay");
+const serviceButtons = serviceOverlay.querySelectorAll(".btn.more");
+const backServiceBtn = document.getElementById("backServiceBtn");
+const backOrderBtn = document.getElementById("backOrderBtn");
+const orderBtn = document.getElementById("orderBtn");
 
-/* LOGIN */
-googleBtn.onclick=()=>signInWithPopup(auth,provider);
-emailLoginBtn.onclick=()=>signInWithEmailAndPassword(auth,loginEmail.value,loginPass.value);
-signupBtn.onclick=()=>{
- if(signupPass.value!==signupConfirm.value){alert("Passwords do not match");return;}
- createUserWithEmailAndPassword(auth,signupEmail.value,signupPass.value);
-};
-showSignup.onclick=()=>{
- emailLoginBox.classList.add("hidden");
- signupBox.classList.remove("hidden");
-};
-backToLogin.onclick=()=>{
- signupBox.classList.add("hidden");
- emailLoginBox.classList.remove("hidden");
-};
+// Google login
+document.getElementById("googleLoginBtn").addEventListener("click",()=>{
+  signInWithPopup(auth,new GoogleAuthProvider());
+});
 
-/* AUTH STATE */
+// After login
 onAuthStateChanged(auth,user=>{
- if(user){
-  emailView.innerText=user.email;
-  logoutBtn.classList.remove("hidden");
-  loginScreen.classList.add("hidden");
-  step1.classList.remove("hidden");
- }else{
-  location.reload();
- }
+  if(user){
+    loginOverlay.style.display="none";
+    site.style.display="flex";
+    serviceOverlay.classList.remove("hidden");
+  }
 });
 
-/* LOGOUT */
-logoutBtn.onclick=()=>signOut(auth);
+let currentService = "";
 
-/* SERVICES */
-document.querySelectorAll("[data-service]").forEach(btn=>{
- btn.onclick=()=>{
-  service=btn.dataset.service;
-  step1.classList.add("hidden");
-  step2.classList.remove("hidden");
+// Service selection
+serviceButtons.forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    currentService = btn.dataset.service;
+    document.getElementById("serviceTitle").innerText = currentService;
 
-  serviceTitle.innerText=service;
-  instaUser.classList.add("hidden");
-  ytLink.classList.add("hidden");
-  qty.classList.add("hidden");
-  qty.innerHTML="";
+    const priceSelect = document.getElementById("servicePrice");
+    priceSelect.innerHTML = "";
 
-  if(service==="Instagram Boost"){
-   instaUser.classList.remove("hidden");
-   qty.classList.remove("hidden");
-   [["100","20"],["200","30"],["300","45"],["400","55"],["1000","100"],["2000","200"],["5000","500"],["9000","1000"],["10000","1100"]]
-   .forEach(v=>{
-    let o=document.createElement("option");
-    o.value=v[0]+"|"+v[1];
-    o.text=`${v[0]} - ₹${v[1]}`;
-    qty.add(o);
-   });
-  }
-  if(service==="Instagram Recovery"){instaUser.classList.remove("hidden");amount="300";}
-  if(service==="Instagram Disable"){instaUser.classList.remove("hidden");amount="700";}
-  if(service==="YouTube Subscribers"){
-   ytLink.classList.remove("hidden");
-   let o=document.createElement("option");
-   o.value="1000|50";o.text="1000 - ₹50";
-   qty.add(o);qty.classList.remove("hidden");
-  }
- };
+    if(currentService==="Instagram Boost"){
+      [[100,20],[200,30],[300,45],[400,55],[1000,100],[2000,200],[5000,500],[9000,1000],[10000,1100]]
+      .forEach(p=>{
+        let o = document.createElement("option");
+        o.value = p[0]+"|"+p[1];
+        o.textContent = p[0]+" - ₹"+p[1];
+        priceSelect.appendChild(o);
+      });
+    }
+    if(currentService==="Instagram Recovery"){ addOption("Recovery",300); }
+    if(currentService==="Instagram Disable"){ addOption("Disable",700); }
+    if(currentService==="YouTube Subscribers"){ addOption("1000 Subs",50); }
+
+    serviceOverlay.classList.add("hidden");
+    orderOverlay.classList.remove("hidden");
+  });
 });
 
-continueBtn.onclick=()=>{
- if(qty.value){[quantity,amount]=qty.value.split("|")}
- extra=instaUser.value||ytLink.value;
- summary.innerHTML=`Service: ${service}<br>Qty: ${quantity||"N/A"}<br>Amount: ₹${amount}<br>Info: ${extra}`;
- step2.classList.add("hidden");
- step3.classList.remove("hidden");
-};
+function addOption(q,a){
+  let o = document.createElement("option");
+  o.value = q+"|"+a;
+  o.textContent = q+" - ₹"+a;
+  document.getElementById("servicePrice").appendChild(o);
+}
 
-backBtn.onclick=()=>{step2.classList.add("hidden");step1.classList.remove("hidden")};
-resetBtn.onclick=()=>location.reload();
+// Back buttons
+backServiceBtn.addEventListener("click",()=>{
+  orderOverlay.classList.add("hidden");
+  serviceOverlay.classList.remove("hidden");
+});
 
-waBtn.onclick=()=>{
- const id=23992+Math.floor(Math.random()*900);
- const msg=`Order ID: #${id}
-Service: ${service}
-Quantity: ${quantity||"N/A"}
-Amount: ₹${amount}
-Info: ${extra}
-Email: ${auth.currentUser.email}
-Date: ${new Date().toLocaleString()}`;
- window.open("https://wa.me/19027088772?text="+encodeURIComponent(msg));
-};
+backOrderBtn.addEventListener("click",()=>{
+  orderOverlay.classList.add("hidden");
+  serviceOverlay.classList.remove("hidden");
+});
+
+// WhatsApp order
+orderBtn.addEventListener("click",()=>{
+  const [qty,amt] = document.getElementById("servicePrice").value.split("|");
+  const info = document.getElementById("userInfo").value;
+  const userEmail = auth.currentUser.email;
+  const msg = `Service: ${currentService}
+Quantity: ${qty}
+Amount: ₹${amt}
+Username/Channel: ${info}
+Email: ${userEmail}
+Date: ${new Date().toLocaleString()}
+Order ID: #23992`;
+  window.open("https://wa.me/19027088772?text="+encodeURIComponent(msg));
+});
 </script>
 </body>
 </html>
