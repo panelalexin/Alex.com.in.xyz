@@ -1,57 +1,45 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alex Premium Panel</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
-body{background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;color:#fff;overflow:hidden}
-
-/* ===== LOGIN OVERLAY ===== */
-#loginOverlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:9999;
-}
-.loginBox{
-  background:#fff;width:90%;max-width:360px;padding:28px;border-radius:26px;text-align:center;animation:slideIn .6s ease;position:relative;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;}
+/* LOGIN OVERLAY */
+#loginOverlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:9999;}
+.loginBox{background:#fff;width:90%;max-width:360px;padding:28px;border-radius:26px;text-align:center;animation:slideIn .6s ease;position:relative;}
 @keyframes slideIn{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
-.backBtn{position:absolute;left:18px;top:18px;font-size:20px;cursor:pointer;display:none}
-.loginBox h2{color:#ff6b6b;margin-bottom:6px}
-.loginBox p{font-size:14px;color:#666}
-.btn{width:100%;padding:14px;border:none;border-radius:16px;margin-top:14px;font-size:16px;cursor:pointer;font-weight:600}
-.google{background:linear-gradient(90deg,#4285F4,#34A853);color:#fff}
-.more{background:linear-gradient(90deg,#667eea,#764ba2);color:#fff}
-.inputField{width:100%;padding:12px;margin-top:10px;border-radius:14px;border:1px solid #ddd}
-.small{font-size:12px;margin-top:10px;color:#666;cursor:pointer}
-.hidden{display:none}
-
-/* ===== MAIN PANEL ===== */
-#site{display:none;min-height:100vh;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;flex-direction:column}
-header{width:100%;padding:14px;background:linear-gradient(90deg,#ff512f,#f09819);display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 15px rgba(0,0,0,.3)}
-header div{font-weight:600;font-size:14px}
-header button{padding:6px 12px;border:none;border-radius:14px;background:#fff;color:#333;cursor:pointer;font-weight:600}
-.card{background:#fff;color:#333;padding:30px;border-radius:24px;text-align:center;width:90%;max-width:420px;margin:40px auto;box-shadow:0 20px 40px rgba(0,0,0,.35);position:relative}
-.back{position:absolute;top:15px;left:15px;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ff9f43,#ff6b6b);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
-button,select,input{width:100%;padding:14px;margin-top:12px;border:none;border-radius:14px;font-size:16px}
-.main{background:linear-gradient(90deg,#ff512f,#f09819);color:#fff;font-weight:600}
-.service{background:linear-gradient(90deg,#36d1dc,#5b86e5);color:#fff;font-weight:600}
-.whatsapp{background:linear-gradient(90deg,#25d366,#128c7e);color:#fff;font-weight:700}
-.reset{background:linear-gradient(90deg,#636e72,#2d3436);color:#fff}
-
+.backBtn{position:absolute;left:18px;top:18px;font-size:20px;cursor:pointer;display:none;}
+.loginBox h2{color:#ff6b6b;margin-bottom:6px;}
+.loginBox p{font-size:14px;color:#666;}
+.btn{width:100%;padding:14px;border:none;border-radius:16px;margin-top:14px;font-size:16px;cursor:pointer;font-weight:600;}
+.google{background:linear-gradient(90deg,#4285F4,#34A853);color:#fff;}
+.more{background:linear-gradient(90deg,#667eea,#764ba2);color:#fff;}
+.inputField{width:100%;padding:12px;margin-top:10px;border-radius:14px;border:1px solid #ddd;}
+.small{font-size:12px;margin-top:10px;color:#666;cursor:pointer;}
+.hidden{display:none;}
+/* MAIN PANEL */
+#site{display:none;width:100%;flex-direction:column;align-items:center;flex:1;}
+header{width:100%;padding:14px;background:linear-gradient(90deg,#ff512f,#f09819);display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 15px rgba(0,0,0,.3);}
+header div{font-weight:600;font-size:14px;}
+header button{padding:6px 12px;border:none;border-radius:14px;background:#fff;color:#333;cursor:pointer;font-weight:600;}
+.card{background:#fff;color:#333;padding:30px;border-radius:24px;text-align:center;width:90%;max-width:420px;margin:40px auto;box-shadow:0 20px 40px rgba(0,0,0,.35);position:relative;}
+.back{position:absolute;top:15px;left:15px;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ff9f43,#ff6b6b);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:bold;}
+button,select,input{width:100%;padding:14px;margin-top:12px;border:none;border-radius:14px;font-size:16px;}
+.main{background:linear-gradient(90deg,#ff512f,#f09819);color:#fff;font-weight:600;}
+.service{background:linear-gradient(90deg,#36d1dc,#5b86e5);color:#fff;font-weight:600;}
+.whatsapp{background:linear-gradient(90deg,#25d366,#128c7e);color:#fff;font-weight:700;}
+.reset{background:linear-gradient(90deg,#636e72,#2d3436);color:#fff;}
 /* FLOATING WA */
-.wa{position:fixed;right:20px;bottom:80px;width:60px;height:60px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 25px rgba(0,0,0,.4);z-index:999}
-.wa img{width:34px}
-
+.wa{position:fixed;right:20px;bottom:80px;width:60px;height:60px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 25px rgba(0,0,0,.4);z-index:999;}
+.wa img{width:34px;}
 /* FOOTER */
-footer{position:fixed;bottom:0;width:100%;background:linear-gradient(90deg,#141e30,#243b55);padding:14px;text-align:center;font-size:14px}
+footer{width:100%;background:linear-gradient(90deg,#141e30,#243b55);padding:14px;text-align:center;font-size:14px;}
 </style>
 </head>
-
 <body>
 
 <!-- LOGIN OVERLAY -->
@@ -59,6 +47,7 @@ footer{position:fixed;bottom:0;width:100%;background:linear-gradient(90deg,#141e
   <div class="loginBox">
     <div class="backBtn" id="backBtn" onclick="goBack()">⬅</div>
 
+    <!-- STEP 1 -->
     <div id="stepMain">
       <h2>👋 Welcome</h2>
       <p>Login to access panel</p>
@@ -66,12 +55,14 @@ footer{position:fixed;bottom:0;width:100%;background:linear-gradient(90deg,#141e
       <button class="btn more" onclick="showMore()">More options</button>
     </div>
 
+    <!-- STEP 2 -->
     <div id="stepMore" class="hidden">
       <h2>Select Login</h2>
       <button class="btn more" onclick="showEmail()">Email</button>
       <button class="btn more" onclick="showPhone()">Mobile OTP</button>
     </div>
 
+    <!-- STEP 3 EMAIL -->
     <div id="stepEmail" class="hidden">
       <h2>Email Login</h2>
       <input id="email" class="inputField" placeholder="Email">
@@ -80,6 +71,7 @@ footer{position:fixed;bottom:0;width:100%;background:linear-gradient(90deg,#141e
       <div class="small" onclick="showSignup()">Don’t have account? Create Account</div>
     </div>
 
+    <!-- STEP 4 EMAIL SIGNUP -->
     <div id="stepSignup" class="hidden">
       <h2>Create Account</h2>
       <input id="sEmail" class="inputField" placeholder="Email">
@@ -87,6 +79,7 @@ footer{position:fixed;bottom:0;width:100%;background:linear-gradient(90deg,#141e
       <button class="btn more" onclick="emailSignup()">Sign Up</button>
     </div>
 
+    <!-- STEP 3 PHONE -->
     <div id="stepPhone" class="hidden">
       <h2>Mobile OTP</h2>
       <input value="+91" readonly class="inputField">
@@ -103,7 +96,7 @@ footer{position:fixed;bottom:0;width:100%;background:linear-gradient(90deg,#141e
     <button onclick="logout()">Logout</button>
   </header>
 
-  <!-- STEP-WISE ORDER -->
+  <!-- STEP 1: SERVICE SELECTION -->
   <div id="step1" class="card">
     <h3>Select Service</h3>
     <button class="service" onclick="selectService('Instagram Boost')">Instagram Boost</button>
@@ -112,12 +105,13 @@ footer{position:fixed;bottom:0;width:100%;background:linear-gradient(90deg,#141e
     <button class="service" onclick="selectService('YouTube Subscriber')">YouTube Subscriber – ₹50</button>
   </div>
 
+  <!-- STEP 2: DETAILS -->
   <div id="step2" class="card hidden">
     <div class="back" onclick="backStep()">⬅</div>
     <h3 id="title"></h3>
-    <select id="qty"></select>
-    <input id="instaUser" class="inputField" placeholder="Instagram Username">
-    <input id="ytLink" class="inputField" placeholder="YouTube Channel Link">
+    <select id="qty" class="inputField"></select>
+    <input id="instaUser" class="inputField hidden" placeholder="Instagram Username">
+    <input id="ytLink" class="inputField hidden" placeholder="YouTube Channel Link">
     <button class="main" onclick="goWhatsApp()">Continue to WhatsApp</button>
     <button class="reset" onclick="resetOrder()">Reset</button>
   </div>
@@ -132,19 +126,12 @@ footer{position:fixed;bottom:0;width:100%;background:linear-gradient(90deg,#141e
 Alex estd 2024 | 100% trusted by 10,000+ people
 </footer>
 
-<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signInWithPhoneNumber,
-  RecaptchaVerifier,
-  onAuthStateChanged,
-  signOut
+  getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword,
+  createUserWithEmailAndPassword, signInWithPhoneNumber, RecaptchaVerifier,
+  onAuthStateChanged, signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
@@ -171,10 +158,7 @@ window.goBack=()=>{const prev=history.pop();show(prev)}
 window.googleLogin=()=>signInWithPopup(auth,new GoogleAuthProvider())
 window.emailLogin=()=>signInWithEmailAndPassword(auth,email.value,password.value)
 window.emailSignup=()=>createUserWithEmailAndPassword(auth,sEmail.value,sPassword.value)
-window.phoneLogin=()=>{
-  window.recaptchaVerifier=new RecaptchaVerifier(auth,"loginOverlay",{size:"invisible"});
-  signInWithPhoneNumber(auth,"+91"+phoneNum.value,recaptchaVerifier).then(r=>{const code=prompt("Enter OTP");r.confirm(code)});
-}
+window.phoneLogin=()=>{window.recaptchaVerifier=new RecaptchaVerifier(auth,"loginOverlay",{size:"invisible"});signInWithPhoneNumber(auth,"+91"+phoneNum.value,recaptchaVerifier).then(r=>{const code=prompt("Enter OTP");r.confirm(code});}
 window.logout=()=>signOut(auth);
 
 /* AUTH STATE */
@@ -182,7 +166,7 @@ onAuthStateChanged(auth,user=>{
   if(user){
     loginOverlay.style.display="none";
     site.style.display="flex";
-    userEmail.innerText = user.email || "Google User";
+    document.getElementById("userEmail").innerText=user.email || "Google User";
   } else {
     loginOverlay.style.display="flex";
     site.style.display="none";
@@ -190,42 +174,27 @@ onAuthStateChanged(auth,user=>{
 });
 
 /* ORDER SYSTEM */
-let step=1,service='',price='',quantity='';
+let service='',price='',quantity='';
 let baseOrderId=23992;
 
 function selectService(s){
-  service=s;
-  qty.innerHTML='';instaUser.style.display='none';ytLink.style.display='none';
-  price='';quantity='';
+  service=s;qty.innerHTML='';instaUser.classList.add('hidden');ytLink.classList.add('hidden');
   if(s==='Instagram Boost'){
-    title.innerText='Instagram Boost Details';
-    qty.style.display='block';instaUser.style.display='block';
-    [['100','₹20'],['200','₹30'],['300','₹45'],['400','₹55'],['1000','₹100'],['2000','₹200'],['5000','₹500'],['9000','₹1000'],['10000','₹1100']]
-    .forEach(v=>{let o=document.createElement('option');o.value=v[0]+'|'+v[1];o.text=v[0]+' - '+v[1];qty.add(o);});
-  } else if(s==='YouTube Subscriber'){
-    title.innerText='YouTube Subscriber';
-    qty.style.display='block';ytLink.style.display='block';
-    let o=document.createElement('option');o.value='1000|₹50';o.text='1000 - ₹50';qty.add(o);
-  } else {
-    title.innerText='Instagram Account Details';
-    instaUser.style.display='block';
-    price = s==='Instagram Recovery'?'₹300':'₹700';
-  }
-  document.getElementById("step1").classList.add("hidden");
-  document.getElementById("step2").classList.remove("hidden");
+    title.innerText='Instagram Boost';instaUser.classList.remove('hidden');
+    let opts=[['100','₹20'],['200','₹30'],['300','₹45'],['400','₹55'],['1000','₹100'],['2000','₹200'],['5000','₹500'],['9000','₹1000'],['10000','₹1100']];
+    opts.forEach(v=>{let o=document.createElement('option');o.value=v[0]+'|'+v[1];o.text=v[0]+' - '+v[1];qty.add(o);});
+  } else if(s==='YouTube Subscriber'){title.innerText='YouTube Subscriber';ytLink.classList.remove('hidden');qty.style.display='block';let o=document.createElement('option');o.value='1000|₹50';o.text='1000 - ₹50';qty.add(o);}
+  else{title.innerText=s;price=s==='Instagram Recovery'?'₹300':'₹700';instaUser.classList.remove('hidden');qty.style.display='none';}
+  document.getElementById("step1").classList.add("hidden");document.getElementById("step2").classList.remove("hidden");
 }
 
-function backStep(){
-  document.getElementById("step2").classList.add("hidden");
-  document.getElementById("step1").classList.remove("hidden");
-}
-
-function resetOrder(){location.reload()}
+function backStep(){document.getElementById("step2").classList.add("hidden");document.getElementById("step1").classList.remove("hidden");}
+function resetOrder(){location.reload();}
 
 function goWhatsApp(){
   const now=new Date();
-  if(qty.style.display==='block'){let v=qty.value.split('|');quantity=v[0];price=v[1]} else quantity='N/A';
-  const extra=instaUser.style.display==='block'?`Instagram Username: ${instaUser.value}`:ytLink.style.display==='block'?`YouTube Link: ${ytLink.value}`:'';
+  if(qty.style.display!=='none'){let v=qty.value.split('|');quantity=v[0];price=v[1];}else quantity='N/A';
+  const extra=instaUser.style.display!=='none'?`Instagram Username: ${instaUser.value}`:ytLink.style.display!=='none'?`YouTube Link: ${ytLink.value}`:'';
   const msg=`Order ID: #${baseOrderId+Math.floor(Math.random()*900)}
 Service: ${service}
 Quantity: ${quantity}
@@ -234,7 +203,7 @@ ${extra}
 Customer Email: ${auth.currentUser.email}
 Date: ${now.toLocaleDateString()}
 Time: ${now.toLocaleTimeString()}`;
-  window.open('https://wa.me/19027088772?text='+encodeURIComponent(msg),'_blank');
+  window.open('https://wa.me/1902708772?text='+encodeURIComponent(msg),'_blank');
 }
 </script>
 
